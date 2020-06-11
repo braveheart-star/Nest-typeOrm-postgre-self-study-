@@ -11,6 +11,7 @@ export class PeopleController {
     ){}
 
     @Get()
+    
     getPeople() {
         return this.peopleService.getPeople();
     }
