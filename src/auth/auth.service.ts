@@ -22,7 +22,8 @@ export class AuthService {
                 password:hashedPassword
             });
             createdUser.password = undefined;
-            return createdUser;
+            return this.login(createdUser)
+            // return createdUser;
         } catch (error) {
           // console.log(error)
             if(error?.code === PostgresErrorCode.UniqueViolation) {
