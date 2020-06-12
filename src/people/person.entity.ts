@@ -9,7 +9,7 @@ class Person {
     @Column()
     public name: string;
     @Column()
-    public sex:boolean;
+    public gender:boolean;
 }
 
 export default Person;

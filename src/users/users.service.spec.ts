@@ -1,18 +1,48 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersService } from './users.service';
+import {UsersService} from './users.service'
+import User  from './users.entity'
+import { Repository } from 'typeorm';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
-describe('UsersService', () => {
-  let service: UsersService;
+// @ts-ignore
+export const repositoryMockFactory: () => MockType<Repository<any>> = jest.fn(() => ({
+    findOne: jest.fn(entity => entity),
+    // ...
+  }));
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersService],
-    }).compile();
+  describe('UserService', () => {
+    let service: UsersService;
+    let repositoryMock: MockType<Repository<User>>;
+  
+    beforeEach(async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        providers: [
+            UsersService,
+          // Provide your mock instead of the actual repository
+          { provide: getRepositoryToken(User), useFactory: repositoryMockFactory },
+        ],
+      }).compile();
+      service = module.get<UsersService>(UsersService);
+      repositoryMock = module.get(getRepositoryToken(User));
+    });
+  
+    it('should find a user', async () => {
+        const user = {name: 'Alni', id: '123'};
+        // Now you can control the return value of your mock's methods
+        repositoryMock.findOne.mockReturnValue(user);
 
-    service = module.get<UsersService>(UsersService);
+        expect(await service.findUser(user.id)).toEqual(user);
+
+
+        // And make assertions on how often and with what params your mock's methods are called
+        expect(repositoryMock.findOne).toHaveBeenCalledWith(user.id);
+      });
+
+
+
+
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
-});
+  export type MockType<T> = {
+    [P in keyof T]: jest.Mock<{}>;
+  };

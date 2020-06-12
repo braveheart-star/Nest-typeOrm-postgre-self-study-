@@ -41,8 +41,8 @@ export  class PeopleService {
 
      async addPerson(person:addPerson){
           const newPerson = await this.peopleRepository.create(person)
-          await this.peopleRepository.save(newPerson);
-          return newPerson;
+          const savedPerson = await this.peopleRepository.save(newPerson);
+          return savedPerson;
 
       }
 
