@@ -1,17 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import {UsersService} from './users.service'
 import User  from './users.entity'
-import { Repository } from 'typeorm';
+import { Repository, Entity } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
 // @ts-ignore
 export const repositoryMockFactory: () => MockType<Repository<any>> = jest.fn(() => ({
     findOne: jest.fn(entity => entity),
+    addOne:jest.fn(entity => entity),
     // ...
   }));
 
   describe('UserService', () => {
-    let service: UsersService;
+    let userService: UsersService;
     let repositoryMock: MockType<Repository<User>>;
   
     beforeEach(async () => {
@@ -19,23 +20,31 @@ export const repositoryMockFactory: () => MockType<Repository<any>> = jest.fn(()
         providers: [
             UsersService,
           // Provide your mock instead of the actual repository
-          { provide: getRepositoryToken(User), useFactory: repositoryMockFactory },
+          {
+             provide: getRepositoryToken(User),
+             useFactory: repositoryMockFactory 
+            },
         ],
       }).compile();
-      service = module.get<UsersService>(UsersService);
+      userService = module.get<UsersService>(UsersService);
       repositoryMock = module.get(getRepositoryToken(User));
     });
   
     it('should find a user', async () => {
-        const user = {name: 'Alni', id: '123'};
+        const user = {name: 'Alni', email: 'mouse@gmail.com'};
+        const result = {
+          "email":'mouse@gmail.com',
+        }
         // Now you can control the return value of your mock's methods
         repositoryMock.findOne.mockReturnValue(user);
 
-        expect(await service.findUser(user.id)).toEqual(user);
+        expect(await userService.getByEmail(user.email)).toEqual(user);
+        // console.log(await userService.getByEmail(user.email))
 
 
         // And make assertions on how often and with what params your mock's methods are called
-        expect(repositoryMock.findOne).toHaveBeenCalledWith(user.id);
+        expect(repositoryMock.findOne).toHaveBeenCalledWith(result);
+        
       });
 
 

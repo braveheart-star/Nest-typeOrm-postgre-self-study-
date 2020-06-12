@@ -12,13 +12,13 @@ export class UsersService {
         private usersRepository: Repository<User>
     ){}
 
-    // async getByEmail(email:string) {
-    //     const user = await this.usersRepository.findOne({email});
-    //     if(user) {
-    //         return user;
-    //     }
-    //     throw new HttpException('User with this email does not exist',HttpStatus.NOT_FOUND);
-    // }
+    async getByEmail(email:string) {
+        const user = await this.usersRepository.findOne({email});
+        if(user) {
+            return user;
+        }
+        throw new HttpException('User with this email does not exist',HttpStatus.NOT_FOUND);
+    }
 
     async create(userData:CreateUserDto) {
         const newUser = await this.usersRepository.create(userData);
