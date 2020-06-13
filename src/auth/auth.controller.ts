@@ -7,7 +7,7 @@ import RequestUser from './requestUser.interface';
 import { LocalAuthGuard } from './localAuth.guard';
 import {JwtAuthGuard} from './jwtAuth.guard';
  
-@Controller('auth')
+@Controller('')
 export class AuthController {
   constructor(
     private readonly authService: AuthService

@@ -1,7 +1,8 @@
-import { Controller, Body, Get, Param, Post, Delete, Put } from '@nestjs/common';
+import { Controller, Body, Get, Param, Post, Delete, Put, UseGuards } from '@nestjs/common';
 import { PeopleService } from './people.service'
 import {addPerson} from './dto/addPerson.dto'
 import {replacePerson} from './dto/replacePerson.dto'
+import {JwtAuthGuard} from '../auth/jwtAuth.guard';
 
 
 @Controller('people')
@@ -27,6 +28,7 @@ export class PeopleController {
     }
 
     @Post()
+    @UseGuards(JwtAuthGuard)
     async addPerson(@Body() person:addPerson) {
         return this.peopleService.addPerson(person)
     }
