@@ -11,7 +11,8 @@ import * as Joi from '@hapi/joi';
 
 @Module({
   imports: [
-    PeopleModule, 
+  
+    PeopleModule,
 
     ConfigModule.forRoot({
       validationSchema:Joi.object({
@@ -46,7 +47,6 @@ import * as Joi from '@hapi/joi';
     AuthModule,
 ],
   controllers: [AppController],
-  providers: [AppService, 
-  ],
+  providers: [AppService],
 })
 export class AppModule {}

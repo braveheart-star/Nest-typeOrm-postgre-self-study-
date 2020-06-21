@@ -31,7 +31,7 @@ import  {JwtStrategy}  from './jwt.strategy';
     JwtStrategy
   ],
   controllers: [
-        AuthController
+    AuthController
   ]
 })
 export class AuthModule {}
