@@ -37,7 +37,6 @@ export class AuthController {
     return this.authService.login(user)
   }
 
-
   @UseGuards(JwtAuthGuard)
   @Get()
   authenticate(@Req() request: RequestUser) {
