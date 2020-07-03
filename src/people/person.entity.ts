@@ -1,15 +1,13 @@
-import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-
 class Person {
-
-    @PrimaryGeneratedColumn()
-    public id:number;
-    @Column()
-    public name: string;
-    @Column()
-    public gender:boolean;
+  @PrimaryGeneratedColumn()
+  public id: number;
+  @Column()
+  public name: string;
+  @Column()
+  public gender: boolean;
 }
 
 export default Person;

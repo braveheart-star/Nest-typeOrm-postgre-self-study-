@@ -1,4 +1,4 @@
 export class addPerson {
-    name: string;
-    gender: boolean;
+  name: string;
+  gender: boolean;
 }
